@@ -5,12 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.navigationdemo.list.MainList
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.navigationdemo.ui.MovieDetails
+import com.example.navigationdemo.ui.list.MainList
 import com.example.navigationdemo.ui.theme.NavigationDemoTheme
 import com.example.navigationdemo.viewModel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,10 +21,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            
+            val navController = rememberNavController()
 
             NavigationDemoTheme {
-
-                    MainList(viewModel = viewModel)
+                    NavHost(navController = navController, startDestination = "trendingMovieList"){
+                        composable("trendingMovieList"){
+                            MainList(navController = navController,viewModel = viewModel)
+                        }
+                        composable("movieDetails"){
+                            MovieDetails(movieItem = viewModel.clickedItem)
+                        }
+                    }
+                   
 
 
             }

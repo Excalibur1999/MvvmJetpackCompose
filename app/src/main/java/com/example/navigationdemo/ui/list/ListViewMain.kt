@@ -1,4 +1,4 @@
-package com.example.navigationdemo.list
+package com.example.navigationdemo.ui.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -11,17 +11,20 @@ import androidx.compose.material.Surface
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
 import com.example.navigationdemo.model.Result
 import com.example.navigationdemo.viewModel.MovieViewModel
 
 
 @ExperimentalFoundationApi
 @Composable
-fun MainList(viewModel: MovieViewModel){
+fun MainList(navController: NavController,
+             viewModel: MovieViewModel){
        val list = viewModel.trendingMovies
-      MovieList(movieList = list,onItemClicked = {
+      MovieList(viewModel=viewModel,navController=navController,movieList = list,onItemClicked = {
           viewModel.itemClicked(it)
       })
 
@@ -29,7 +32,7 @@ fun MainList(viewModel: MovieViewModel){
 
 @ExperimentalFoundationApi
 @Composable
-fun MovieList(
+fun MovieList(viewModel: MovieViewModel,navController: NavController,
     movieList:List<Result>,
     onItemClicked:(Result)->Unit
 ){
@@ -39,7 +42,7 @@ fun MovieList(
             MainHeader()
         }
         items(movieList){item->
-            ListViewItem(item,onItemClicked)
+            ListViewItem(navController = navController,item,onItemClicked)
         }
     }
 }

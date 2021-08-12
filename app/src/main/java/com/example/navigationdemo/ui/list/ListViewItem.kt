@@ -1,4 +1,4 @@
-package com.example.navigationdemo.list
+package com.example.navigationdemo.ui.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -11,21 +11,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.navigationdemo.model.Result
 import com.example.navigationdemo.network.MovieApiClient.BASE_IMAGE_URL
 import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
-fun ListViewItem(movieItem: Result,
+fun ListViewItem(navController: NavController,movieItem: Result,
                  onItemClicked:(Result)->Unit
 ) {
     Card(
         modifier = Modifier
             .padding(8.dp)
+            .height(100.dp)
             .clickable {
                 onItemClicked(movieItem)
+                navController.navigate("movieDetails")
             }
-            .fillMaxWidth(),
+            ,
         elevation = 4.dp,
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -36,14 +39,14 @@ fun ListViewItem(movieItem: Result,
                 modifier = Modifier
                     .padding(2.dp)
                     .width(180.dp)
-                    .fillMaxHeight()
                     .clip(RoundedCornerShape(10.dp))
 
 
             )
             Spacer(modifier = Modifier.width(20.dp))
 
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize(),
+            ) {
                 movieItem.title?.let {
                     Text(text = it)
                 }
